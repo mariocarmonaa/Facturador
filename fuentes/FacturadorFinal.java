@@ -1,4 +1,4 @@
-public class Facturador {
+public class FacturadorFinal {
     // Tarea 3: Code Smell - Primitive Obsession (Uso de arrays en lugar de objetos)
     static String[][] repertorio = {
         {"Tributo Robe", "heavy"},
