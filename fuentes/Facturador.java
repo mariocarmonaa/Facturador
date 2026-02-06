@@ -1,7 +1,8 @@
 public class Facturador {
 
-    private static final String TIPO_HEAVY = "heavy";
-    private static final String TIPO_ROCK = "rock";
+    public enum TipoConcierto {
+        HEAVY, ROCK
+    }
 
     private static final Double BASE_HEAVY = 4000.0;
     private static final Double BASE_ROCK = 3000.0;
@@ -17,11 +18,11 @@ public class Facturador {
     private static final Double IVA = 0.21;
     private static final Double FACTOR_IVA = 1.21;
 
-    static String[][] conciertos = {
-            { "Tributo Robe", TIPO_HEAVY },
-            { "Homaneje Queen", TIPO_ROCK },
-            { "Magia Knoppler", TIPO_ROCK },
-            { "Demonios Rojos", TIPO_HEAVY }
+    static Object[][] conciertos = {
+            { "Tributo Robe", TipoConcierto.HEAVY },
+            { "Homaneje Queen", TipoConcierto.ROCK },
+            { "Magia Knoppler", TipoConcierto.ROCK },
+            { "Demonios Rojos", TipoConcierto.HEAVY }
     };
 
     static Integer[][] actuacionesRealizadas = {
@@ -40,7 +41,7 @@ public class Facturador {
         for (Integer i = 0; i < actuacionesRealizadas.length; i++) {
             Integer indiceConcierto = actuacionesRealizadas[i][0];
             Integer asistentes = actuacionesRealizadas[i][1];
-            String tipo = conciertos[indiceConcierto][1];
+            TipoConcierto tipo = (TipoConcierto) conciertos[indiceConcierto][1];
 
             Double importeActuacion = calcularImporteActuacion(tipo, asistentes);
             totalFactura += importeActuacion;
@@ -57,18 +58,18 @@ public class Facturador {
         System.out.println("Créditos obtenidos: " + creditosTotales);
     }
 
-    public static Double calcularImporteActuacion(String tipo, Integer asistentes) {
+    public static Double calcularImporteActuacion(TipoConcierto tipo, Integer asistentes) {
         Double importeActuacion;
 
         switch (tipo) {
-            case TIPO_HEAVY:
+            case HEAVY:
                 importeActuacion = BASE_HEAVY;
                 if (asistentes > UMBRAL_HEAVY) {
                     importeActuacion += EXTRA_HEAVY * (asistentes - UMBRAL_HEAVY);
                 }
                 break;
 
-            case TIPO_ROCK:
+            case ROCK:
                 importeActuacion = BASE_ROCK;
                 if (asistentes > UMBRAL_ROCK) {
                     importeActuacion += EXTRA_ROCK * (asistentes - UMBRAL_ROCK);
@@ -82,10 +83,10 @@ public class Facturador {
         return importeActuacion;
     }
 
-    public static Integer calcularCreditos(String tipo, Integer asistentes) {
+    public static Integer calcularCreditos(TipoConcierto tipo, Integer asistentes) {
         Integer creditos = Math.max(asistentes - UMBRAL_HEAVY, 0);
 
-        if (TIPO_HEAVY.equals(tipo)) {
+        if (TipoConcierto.HEAVY.equals(tipo)) {
             creditos += asistentes / DIVISOR_CREDITOS_HEAVY;
         }
 
